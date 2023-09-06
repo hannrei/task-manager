@@ -16,7 +16,7 @@ class UsersTableSeeder extends Seeder
     {
         $attachableRolesIds = Role::pluck('id')->toArray();
 
-        User::factory(1000)->create()->each(function (User $user) use ($attachableRolesIds){
+        User::factory(1000)->create()->each(function (User $user) use ($attachableRolesIds) {
             $randomRoleNumer = rand(1, count($attachableRolesIds));
             $rolesToAttach = array_rand($attachableRolesIds, $randomRoleNumer);
             $rolesToAttach = is_array($rolesToAttach) ? $rolesToAttach : [$rolesToAttach];
