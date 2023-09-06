@@ -72,6 +72,21 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsToMany(Role::class)->withTimestamps();
     }
 
+    public function hasRole(string $role): bool
+    {
+        return $this->roles()->where('name', $role)->exists();
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->hasRole('admin');
+    }
+
+    public function isUser(): bool
+    {
+        return $this->hasRole('user');
+    }
+
     public function tasks(): HasMany
     {
         return $this->hasMany(Task::class, 'assigned_to');
