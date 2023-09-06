@@ -14,14 +14,15 @@ class UsersTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $attachableRolesIds = Role::pluck('id')->toArray();
+        $adminRole = Role::where('name', 'admin')->first();
+        $userRole = Role::where('name', 'user')->first();
 
-        User::factory(1000)->create()->each(function (User $user) use ($attachableRolesIds) {
-            $randomRoleNumer = rand(1, count($attachableRolesIds));
-            $rolesToAttach = array_rand($attachableRolesIds, $randomRoleNumer);
-            $rolesToAttach = is_array($rolesToAttach) ? $rolesToAttach : [$rolesToAttach];
-            foreach ($rolesToAttach as $roleToAttach) {
-                $user->roles()->attach($attachableRolesIds[$roleToAttach]);
+        User::factory(1000)->create()->each(function (User $user) use ($userRole, $adminRole) {
+
+            $user->roles()->attach($userRole->id);
+
+            if ($user->id % 2 === 0) {
+                $user->roles()->attach($adminRole->id);
             }
         });
     }
