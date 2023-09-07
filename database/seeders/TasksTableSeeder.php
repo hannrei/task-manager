@@ -19,16 +19,23 @@ class TasksTableSeeder extends Seeder
 
         $users->each(function (User $user) use ($users) {
             Task::factory()
-                ->count(5)
+                ->count(1)
                 ->for($user, 'creator')
                 ->for($user, 'assignee')
                 ->create();
 
             $createdBy = $users[array_rand($users->toArray())];
             Task::factory()
-                ->count(5)
+                ->count(1)
                 ->for($createdBy, 'creator')
                 ->for($user, 'assignee')
+                ->create();
+
+            $assignedTo = $users[array_rand($users->toArray())];
+            Task::factory()
+                ->count(1)
+                ->for($user, 'creator')
+                ->for($assignedTo, 'assignee')
                 ->create();
         });
     }

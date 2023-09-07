@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\TaskController;
+use App\Http\Controllers\Api\UserController;
+use App\Models\Task;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +26,7 @@ Route::prefix('auth')->group(function () {
     Route::post('refresh', [AuthController::class, 'refresh'])->name('refresh')->middleware('auth:api');
 });
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::apiResource('tasks', TaskController::class);
+Route::post('tasks/{task}/complete', [TaskController::class, 'complete'])->name('tasks.complete');
+
+Route::apiResource('users', UserController::class)->except(['store']);
