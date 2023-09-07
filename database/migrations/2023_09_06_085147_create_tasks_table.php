@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignUuid('created_by')->constrained('users');
             $table->foreignUuid('assigned_to')->constrained('users');
             $table->string('title');
-            $table->text('description');
-            $table->date('due_date');
+            $table->text('description')->nullable();
+            $table->date('due_date')->nullable();
             $table->boolean('completed')->default(false);
             $table->timestamps();
         });
