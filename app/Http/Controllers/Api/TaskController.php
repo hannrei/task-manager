@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use App\Models\User;
+use App\Notifications\TaskAssigned;
+use App\Notifications\TaskCompleted;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -96,6 +98,9 @@ class TaskController extends Controller
             'due_date' => $request->due_date ? $request->due_date : null,
         ]);
 
+        if ($assignedTo !== auth()->user()->id) {
+            User::find($assignedTo)->notify(new TaskAssigned($task));
+        }
         return new TaskResource($task);
     }
 
@@ -134,6 +139,9 @@ class TaskController extends Controller
             'completed' => true
         ]);
 
+        if($task->assignee->id !== $task->creator->id) {
+            $task->assignee->notify(new TaskCompleted($task));
+        }
         return new TaskResource($task);
     }
 
