@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -19,7 +20,7 @@ class USerController extends Controller
      */
     public function index()
     {
-        User::paginate(100);
+        return UserResource::collection(User::get());
     }
 
     /**
@@ -37,7 +38,7 @@ class USerController extends Controller
     {
         auth()->user();
 
-        return $user;
+        return new UserResource($user);
     }
 
     /**
@@ -68,7 +69,7 @@ class USerController extends Controller
         return response()->json(
             [
                 'message' => 'User updated successfully.',
-                'user' => $user,
+                'user' => new UserResource($user),
             ],
             200
         );
