@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -68,7 +69,7 @@ class TaskController extends Controller
 
         $tasks = $query->get();
 
-        return $tasks;
+        return TaskResource::collection($tasks);
     }
 
     /**
@@ -95,7 +96,7 @@ class TaskController extends Controller
             'due_date' => $request->due_date ? $request->due_date : null,
         ]);
 
-        return $task;
+        return new TaskResource($task);
     }
 
     /**
@@ -103,7 +104,8 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        return $task;
+        $task->load(['creator', 'assignee']);
+        return new TaskResource($task);
     }
 
     /**
@@ -121,7 +123,7 @@ class TaskController extends Controller
 
         $task->update($validatedData);
 
-        return $task;
+        return new TaskResource($task);
     }
 
     public function complete(Task $task)
@@ -132,7 +134,7 @@ class TaskController extends Controller
             'completed' => true
         ]);
 
-        return $task;
+        return new TaskResource($task);
     }
 
     /**
