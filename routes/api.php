@@ -28,5 +28,6 @@ Route::prefix('auth')->group(function () {
 
 Route::apiResource('tasks', TaskController::class);
 Route::post('tasks/{task}/complete', [TaskController::class, 'complete'])->name('tasks.complete');
+Route::get('tasks/{task}/file', [TaskController::class, 'downloadFile'])->name('tasks.file');
 
 Route::apiResource('users', UserController::class)->except(['store']);

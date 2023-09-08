@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Notifications\TaskAssigned;
 use App\Notifications\TaskCompleted;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class TaskController extends Controller
 {
@@ -83,7 +84,8 @@ class TaskController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'assigned_to' => 'nullable',
-            'due_date' => 'nullable|date'
+            'due_date' => 'nullable|date',
+            'file' => 'nullable|file|mimes:pdf'
         ]);
 
         $assignedTo = $request->has('assigned_to')
@@ -97,6 +99,10 @@ class TaskController extends Controller
             'created_by' => auth()->user()->id,
             'due_date' => $request->due_date ? $request->due_date : null,
         ]);
+
+        if ($request->has('file')) {
+            Storage::put('users/' . $assignedTo . '/'. 'tasks/' . $task->id . '.pdf', file_get_contents($request->file->getRealPath()));
+        }
 
         if ($assignedTo !== auth()->user()->id) {
             User::find($assignedTo)->notify(new TaskAssigned($task));
@@ -113,6 +119,13 @@ class TaskController extends Controller
         return new TaskResource($task);
     }
 
+    public function downloadFile(Task $task)
+    {
+        $this->authorize('view', $task);
+
+        return Storage::download('users/' . $task->assignee->id . '/' . 'tasks/' . $task->id . '.pdf');
+    }
+
     /**
      * Update the specified resource in storage.
      */
@@ -123,9 +136,13 @@ class TaskController extends Controller
             'description' => 'sometimes|string',
             'assigned_to' => 'sometimes',
             'due_date' => 'sometimes|date',
-            'completed' => 'sometimes|boolean'
+            'completed' => 'sometimes|boolean',
+            'file' => 'sometimes|file|mimes:pdf'
         ]);
 
+        if ($request->has('file')) {
+            Storage::put('users/' . $task->assignee->id . '/'. 'tasks/' . $task->id . '.pdf', file_get_contents($request->file->getRealPath()));
+        }
         $task->update($validatedData);
 
         return new TaskResource($task);

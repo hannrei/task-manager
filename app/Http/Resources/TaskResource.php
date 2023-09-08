@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class TaskResource extends JsonResource
 {
@@ -22,6 +23,7 @@ class TaskResource extends JsonResource
             'completed' => $this->completed,
             'created_by' => $this->whenLoaded('creator') ? new UserResource($this->creator) : $this->created_by,
             'assigned_to' => $this->whenLoaded('assignee') ? new UserResource($this->assignee) : $this->assigned_to,
+            'file' => Storage::exists('users/' . $this->assignee->id . '/'. 'tasks/' . $this->id . '.pdf') ? route('tasks.file', $this->id) : null,
         ];
     }
 }
