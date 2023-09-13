@@ -2,14 +2,114 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @OA\Schema(
+ *   schema="Task",
+ *   title="Task",
+ *   description="Task model",
+ * )
+ */
 class Task extends Model
 {
     use HasFactory, HasUuids;
+
+    /**
+     * @OA\Property(
+     *    title="id",
+     *    description="Task id",
+     *    format="uuid",
+     *    example="123e4567-e89b-12d3-a456-426614174000"
+     * )
+     */
+    private $id;
+
+    /**
+     * @OA\Property(
+     *    title="created_by",
+     *    description="User id of the creator",
+     *    format="uuid",
+     *    type="string",
+     *    example="123e4567-e89b-12d3-a456-426614174000"
+     * )
+     */
+    private $created_by;
+
+    /**
+     * @OA\Property(
+     *    title="assigned_to",
+     *    description="User id of the assignee",
+     *    format="uuid",
+     *    type="string",
+     *    example="123e4567-e89b-12d3-a456-426614174000"
+     * )
+     */
+    private $assigned_to;
+
+    /**
+     * @OA\Property(
+     *    title="title",
+     *    description="Task title",
+     *    type="string",
+     *    example="Task title"
+     * )
+     */
+    private $title;
+
+    /**
+     * @OA\Property(
+     *    title="description",
+     *    description="Task description",
+     *    type="string",
+     *    example="Task description"
+     * )
+     */
+    private $description;
+
+    /**
+     * @OA\Property(
+     *    title="due_date",
+     *    description="Task due date",
+     *    type="string",
+     *    example="2021-01-01 00:00:00"
+     * )
+     */
+    private $due_date;
+
+    /**
+     * @OA\Property(
+     *    title="completed",
+     *    description="Task completed",
+     *    type="boolean",
+     *    example="true"
+     * )
+     */
+    private $completed;
+
+    /**
+     * @OA\Property(
+     *    title="created_at",
+     *    description="The created at date",
+     *    type="string",
+     *    example="2021-01-01 00:00:00"
+     * )
+     */
+    private $created_at;
+
+    /**
+     * @OA\Property(
+     *    title="updated_at",
+     *    description="The updated at date",
+     *    type="string",
+     *    example="2021-01-01 00:00:00"
+     * )
+     */
+    private $updated_at;
 
     protected $fillable = [
         'title',
@@ -20,87 +120,187 @@ class Task extends Model
         'completed',
     ];
 
+    /**
+     * Get the creator of the task.
+     *
+     * @return BelongsTo
+     */
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    /**
+     * Get the assignee of the task.
+     *
+     * @return BelongsTo
+     */
     public function assignee(): BelongsTo
     {
         return $this->belongsTo(User::class, 'assigned_to');
     }
 
-    public function scopeCompleted($query)
+    /**
+     * Scope a query to only include completed tasks.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeCompleted($query): Builder
     {
         return $query->where('completed', true);
     }
 
-    public function scopeIncompleted($query)
+    /**
+     * Scope a query to only include incompleted tasks.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeIncompleted($query): Builder
     {
         return $query->where('completed', false);
     }
 
-    public function scopeOverdue($query)
+    /**
+     * Scope a query to only include overdue tasks.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOverdue($query): Builder
     {
         return $query->where('due_date', '<', now());
     }
 
-    public function scopeAssignedToMe($query)
+    /**
+     * Scope a query to only include tasks assigned to the current user.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeAssignedToMe($query): Builder
     {
         return $query->where('assigned_to', auth()->id());
     }
 
-    public function scopeCreatedByMe($query)
+    /**
+     * Scope a query to only include tasks created by the current user.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeCreatedByMe($query): Builder
     {
         return $query->where('created_by', auth()->id());
     }
 
-    public function scopeAssignedToOthers($query)
+    /**
+     * Scope a query to only include tasks assigned to others.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeAssignedToOthers($query): Builder
     {
         return $query->where('assigned_to', '!=', auth()->id());
     }
 
-    public function scopeCreatedByOthers($query)
+    /**
+     * Scope a query to only include tasks created by others.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeCreatedByOthers($query): Builder
     {
         return $query->where('created_by', '!=', auth()->id());
     }
 
-    public function scopeOrderByDueDate($query)
+    /**
+     * Order the tasks by due date.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOrderByDueDate($query): Builder
     {
         return $query->orderBy('due_date');
     }
 
-    public function scopeOrderByDueDateDesc($query)
+    /**
+     * Order the tasks by due date descending.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOrderByDueDateDesc($query): Builder
     {
         return $query->orderByDesc('due_date');
     }
 
-    public function scopeOrderByTitle($query)
+    /**
+     * Order the tasks by title.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOrderByTitle($query): Builder
     {
         return $query->orderBy('title');
     }
 
-    public function scopeOrderByTitleDesc($query)
+    /**
+     * Order the tasks by title descending.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOrderByTitleDesc($query): Builder
     {
         return $query->orderByDesc('title');
     }
 
-    public function scopeOrderByCompleted($query)
+    /**
+     * Order the tasks by completed first.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOrderByCompleted($query): Builder
     {
         return $query->orderBy('completed');
     }
 
-    public function scopeOrderByCompletedDesc($query)
+    /**
+     * Order the tasks by incompleted first.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOrderByCompletedDesc($query): Builder
     {
         return $query->orderByDesc('completed');
     }
 
-    public function scopeOrderByCreatedAt($query)
+    /**
+     * Order the tasks by created at date.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOrderByCreatedAt($query): Builder
     {
         return $query->orderBy('created_at');
     }
 
-    public function scopeOrderByCreatedAtDesc($query)
+    /**
+     * Order the tasks by created at date descending.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOrderByCreatedAtDesc($query): Builder
     {
         return $query->orderByDesc('created_at');
     }
