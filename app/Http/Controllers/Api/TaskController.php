@@ -156,7 +156,7 @@ class TaskController extends Controller
             'completed' => true
         ]);
 
-        if($task->assignee->id !== $task->creator->id) {
+        if ($task->assignee->id !== $task->creator->id) {
             $task->assignee->notify(new TaskCompleted($task));
         }
         return new TaskResource($task);
