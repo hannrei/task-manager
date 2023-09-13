@@ -32,7 +32,6 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
      *    example="123e4567-e89b-12d3-a456-426614174000"
      * )
      */
-    private $id;
 
     /**
      * @OA\Property(
@@ -41,7 +40,6 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
      *    example="John Doe"
      * )
      */
-    private $name;
 
     /**
      * @OA\Property(
@@ -50,7 +48,6 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
      *    example="john.doe@email.com"
      * )
      */
-    private $email;
 
     /**
      * @OA\Property(
@@ -59,7 +56,6 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
      *    example="2021-01-01 00:00:00"
      * )
      */
-    private $email_verified_at;
 
     /**
      * @OA\Property(
@@ -68,7 +64,6 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
      *    example="$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi"
      * )
      */
-    private $password;
 
     /**
      * @OA\Property(
@@ -77,7 +72,6 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
      *    example="NzD2RB0pM9"
      * )
      */
-    private $remember_token;
 
     /**
      * @OA\Property(
@@ -86,7 +80,6 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
      *    example="2021-01-01 00:00:00"
      * )
      */
-    private $created_at;
 
     /**
      * @OA\Property(
@@ -95,7 +88,6 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
      *    example="2021-01-01 00:00:00"
      * )
      */
-    private $updated_at;
 
     /**
      * The attributes that are mass assignable.
