@@ -7,7 +7,7 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class USerController extends Controller
+class UserController extends Controller
 {
     public function __construct()
     {
