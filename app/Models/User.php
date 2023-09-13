@@ -20,7 +20,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  *   description="User model",
  * )
  */
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, HasUuids;
 
