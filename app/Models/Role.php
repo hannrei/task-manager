@@ -26,7 +26,6 @@ class Role extends Model
      *    example="123e4567-e89b-12d3-a456-426614174000"
      * )
      */
-    private $id;
 
     /**
      * @OA\Property(
@@ -36,7 +35,6 @@ class Role extends Model
      *    example="admin"
      * )
      */
-    private $name;
 
     /**
      * @OA\Property(
@@ -45,7 +43,6 @@ class Role extends Model
      *    example="2021-01-01 00:00:00"
      * )
      */
-    private $created_at;
 
     /**
      * @OA\Property(
@@ -54,7 +51,6 @@ class Role extends Model
      *    example="2021-01-01 00:00:00"
      * )
      */
-    private $updated_at;
 
     /**
      * Many-to-many relationship with users.
