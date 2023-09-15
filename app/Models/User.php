@@ -18,76 +18,52 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  *   schema="User",
  *   title="User",
  *   description="User model",
+ *   @OA\Property(
+ *     property="id",
+ *     description="User id",
+ *     format="uuid",
+ *     example="123e4567-e89b-12d3-a456-426614174000"
+ *   ),
+ *   @OA\Property(
+ *     property="name",
+ *     description="User name",
+ *     example="John Doe"
+ *   ),
+ *   @OA\Property(
+ *     property="email",
+ *     description="User email",
+ *     example="john.doe@email.com"
+ *   ),
+ *   @OA\Property(
+ *     property="email_verified_at",
+ *     description="User email verified at",
+ *     example="2021-01-01 00:00:00"
+ *   ),
+ *   @OA\Property(
+ *     property="password",
+ *     description="The password hash",
+ *     example="$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi"
+ *   ),
+ *   @OA\Property(
+ *     property="remember_token",
+ *     description="The remember token",
+ *     example="NzD2RB0pM9"
+ *   ),
+ *   @OA\Property(
+ *     property="created_at",
+ *     description="The created at date",
+ *     example="2021-01-01 00:00:00"
+ *   ),
+ *   @OA\Property(
+ *     property="updated_at",
+ *     description="The updated at date",
+ *     example="2021-01-01 00:00:00"
+ *   )
  * )
  */
 class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, HasUuids;
-
-    /**
-     * @OA\Property(
-     *    title="id",
-     *    description="User id",
-     *    format="uuid",
-     *    example="123e4567-e89b-12d3-a456-426614174000"
-     * )
-     */
-
-    /**
-     * @OA\Property(
-     *    title="name",
-     *    description="User name",
-     *    example="John Doe"
-     * )
-     */
-
-    /**
-     * @OA\Property(
-     *    title="email",
-     *    description="User email",
-     *    example="john.doe@email.com"
-     * )
-     */
-
-    /**
-     * @OA\Property(
-     *    title="email_verified_at",
-     *    description="User email verified at",
-     *    example="2021-01-01 00:00:00"
-     * )
-     */
-
-    /**
-     * @OA\Property(
-     *    title="password",
-     *    description="The password hash",
-     *    example="$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi"
-     * )
-     */
-
-    /**
-     * @OA\Property(
-     *    title="remember_token",
-     *    description="The remember token",
-     *    example="NzD2RB0pM9"
-     * )
-     */
-
-    /**
-     * @OA\Property(
-     *    title="created_at",
-     *    description="The created at date",
-     *    example="2021-01-01 00:00:00"
-     * )
-     */
-
-    /**
-     * @OA\Property(
-     *    title="updated_at",
-     *    description="The updated at date",
-     *    example="2021-01-01 00:00:00"
-     * )
-     */
 
     /**
      * The attributes that are mass assignable.
