@@ -13,103 +13,79 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *   schema="Task",
  *   title="Task",
  *   description="Task model",
+ *   @OA\Property(
+ *     property="id",
+ *     title="id",
+ *     description="Task id",
+ *     format="uuid",
+ *     example="123e4567-e89b-12d3-a456-426614174000"
+ *   ),
+ *   @OA\Property(
+ *     property="created_by",
+ *     title="created_by",
+ *     description="User id of the creator",
+ *     format="uuid",
+ *     type="string",
+ *     example="123e4567-e89b-12d3-a456-426614174000"
+ *   ),
+ *   @OA\Property(
+ *     property="assigned_to",
+ *     title="assigned_to",
+ *     description="User id of the assignee",
+ *     format="uuid",
+ *     type="string",
+ *     example="123e4567-e89b-12d3-a456-426614174000"
+ *   ),
+ *   @OA\Property(
+ *     property="title",
+ *     title="title",
+ *     description="Task title",
+ *     type="string",
+ *     example="Task title"
+ *   ),
+ *   @OA\Property(
+ *     property="description",
+ *     title="description",
+ *     description="Task description",
+ *     type="string",
+ *     example="Task description"
+ *   ),
+ *   @OA\Property(
+ *     property="due_date",
+ *     title="due_date",
+ *     description="Task due date",
+ *     type="string",
+ *     example="2021-01-01 00:00:00"
+ *   ),
+ *   @OA\Property(
+ *     property="completed",
+ *     title="completed",
+ *     description="Task completed",
+ *     type="boolean",
+ *     example="true"
+ *   ),
+ *   @OA\Property(
+ *     property="created_at",
+ *     title="created_at",
+ *     description="The created at date",
+ *     type="string",
+ *     example="2021-01-01 00:00:00"
+ *   ),
+ *   @OA\Property(
+ *     property="updated_at",
+ *     title="updated_at",
+ *     description="The updated at date",
+ *     type="string",
+ *     example="2021-01-01 00:00:00"
+ *   )
  * )
  */
+
 class Task extends Model
 {
     use HasFactory, HasUuids;
 
-    /**
-     * @OA\Property(
-     *    title="id",
-     *    description="Task id",
-     *    format="uuid",
-     *    example="123e4567-e89b-12d3-a456-426614174000"
-     * )
-     */
-    private $id;
 
-    /**
-     * @OA\Property(
-     *    title="created_by",
-     *    description="User id of the creator",
-     *    format="uuid",
-     *    type="string",
-     *    example="123e4567-e89b-12d3-a456-426614174000"
-     * )
-     */
-    private $created_by;
-
-    /**
-     * @OA\Property(
-     *    title="assigned_to",
-     *    description="User id of the assignee",
-     *    format="uuid",
-     *    type="string",
-     *    example="123e4567-e89b-12d3-a456-426614174000"
-     * )
-     */
-    private $assigned_to;
-
-    /**
-     * @OA\Property(
-     *    title="title",
-     *    description="Task title",
-     *    type="string",
-     *    example="Task title"
-     * )
-     */
-    private $title;
-
-    /**
-     * @OA\Property(
-     *    title="description",
-     *    description="Task description",
-     *    type="string",
-     *    example="Task description"
-     * )
-     */
-    private $description;
-
-    /**
-     * @OA\Property(
-     *    title="due_date",
-     *    description="Task due date",
-     *    type="string",
-     *    example="2021-01-01 00:00:00"
-     * )
-     */
-    private $due_date;
-
-    /**
-     * @OA\Property(
-     *    title="completed",
-     *    description="Task completed",
-     *    type="boolean",
-     *    example="true"
-     * )
-     */
-    private $completed;
-
-    /**
-     * @OA\Property(
-     *    title="created_at",
-     *    description="The created at date",
-     *    type="string",
-     *    example="2021-01-01 00:00:00"
-     * )
-     */
-    private $created_at;
-
-    /**
-     * @OA\Property(
-     *    title="updated_at",
-     *    description="The updated at date",
-     *    type="string",
-     *    example="2021-01-01 00:00:00"
-     * )
-     */
-    private $updated_at;
 
     protected $fillable = [
         'title',
