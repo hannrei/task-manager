@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -34,10 +36,9 @@ class AuthController extends Controller
      *   ),
      *   @OA\Response(
      *     response=201,
-     *     description="User created successfully",
+     *     description="User created successfully or email already exists",
      *     @OA\JsonContent(
-     *       @OA\Property(property="message", type="string", example="User created successfully"),
-     *       @OA\Property(property="user", type="object"),
+     *       @OA\Property(property="message", type="string", example="An email has been sent to your email address. Please verify."),
      *     ),
      *   ),
      * )
@@ -46,19 +47,29 @@ class AuthController extends Controller
     {
         $request->validate([
             'name' => 'required|string',
-            'email' => 'required|string|email|unique:users',
+            'email' => 'required|string|email',
             'password' => 'required|string'
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        if (!User::where('email', $request->email)->exists()) {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+
+            event(new Registered($user));
+        } else {
+            Log::info(
+                'Someone tried to register with an existing email address. ' .
+                    "E-Mail: " . $request->email .
+                    " IP: " . $request->ip()
+            );
+        }
+
 
         return response()->json([
-            'message' => 'User created successfully',
-            'user' => $user,
+            'message' => 'An email has been sent to your email address. Please verify.',
         ], 201);
     }
 
@@ -117,6 +128,13 @@ class AuthController extends Controller
         }
 
         $user = Auth::user();
+
+        if (!$user->hasVerifiedEmail()) {
+            $user->sendEmailVerificationNotification();
+            return response()->json([
+                'message' => 'Unauthorized',
+            ], 401);
+        }
 
         return response()->json([
             'message' => 'User logged in successfully',

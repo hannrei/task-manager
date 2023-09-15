@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\VerificationController;
 use App\Models\Task;
 
 /*
@@ -31,3 +32,8 @@ Route::post('tasks/{task}/complete', [TaskController::class, 'complete'])->name(
 Route::get('tasks/{task}/file', [TaskController::class, 'downloadFile'])->name('tasks.file');
 
 Route::apiResource('users', UserController::class)->except(['store']);
+
+Route::prefix('email')->group(function () {
+    Route::get('verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify');
+    Route::get('resend', [VerificationController::class, 'resend'])->name('verification.resend');
+});
