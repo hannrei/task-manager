@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -49,8 +48,6 @@ class VerificationController extends Controller
 
         if (!$user->hasVerifiedEmail()) {
             $user->markEmailAsVerified();
-            $usersRole = Role::where('name', 'user')->first();
-            $user->roles()->attach($usersRole);
         }
 
         return redirect()->to('/api/documentation');
