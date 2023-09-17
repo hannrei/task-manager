@@ -25,7 +25,7 @@ class TaskPolicy
     {
         return $user->isAdmin()
             ? Response::allow()
-            : ($user->id === $task->creator_id || $user->id === $task->assigned_to
+            : ($user->id === $task->creator->id|| $user->id === $task->assignee->id
                 ? Response::allow()
                 : Response::deny('You are not authorized to view this task.'));
     }
@@ -56,7 +56,7 @@ class TaskPolicy
     {
         return $user->isAdmin()
             ? Response::allow()
-            : ($user->id === $task->assigned_to
+            : ($user->id === $task->assignee->id
                 ? Response::allow()
                 : Response::deny('You are not authorized to complete this task.'));
     }
@@ -68,7 +68,7 @@ class TaskPolicy
     {
         return $user->isAdmin()
             ? Response::allow()
-            : ($user->id === $task->creator_id
+            : ($user->id === $task->creator->id
                 ? Response::allow()
                 : Response::deny('You are not authorized to delete this task.'));
     }
