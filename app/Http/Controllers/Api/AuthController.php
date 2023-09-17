@@ -62,6 +62,13 @@ class AuthController extends Controller
             $usersRole = Role::where('name', 'user')->first();
             $user->roles()->attach($usersRole);
 
+            $newUserIsAdmin = env('NEW_USER_IS_ADMIN', false);
+
+            if ($newUserIsAdmin) {
+                $adminsRole = Role::where('name', 'admin')->first();
+                $user->roles()->attach($adminsRole);
+            }
+
             event(new Registered($user));
         } else {
             Log::info(
