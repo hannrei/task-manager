@@ -80,7 +80,6 @@ class AuthController extends Controller
      *   tags={"Authentication"},
      *   summary="Login user",
      *   description="Login user.",
-     *   security={{"bearerAuth":{}}},
      *   @OA\RequestBody(
      *     required=true,
      *     description="User credentials",
@@ -154,15 +153,6 @@ class AuthController extends Controller
      *   summary="Refresh token",
      *   description="Refresh token.",
      *   security={{"bearerAuth":{}}},
-     *   @OA\RequestBody(
-     *     required=true,
-     *     description="Refresh token",
-     *     @OA\JsonContent(
-     *       required={"type", "token"},
-     *       @OA\Property(property="type", type="string", example="Bearer"),
-     *       @OA\Property(property="token", type="string", example="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9"),
-     *     ),
-     *   ),
      *   @OA\Response(
      *     response=200,
      *     description="Token refreshed successfully",
@@ -176,9 +166,9 @@ class AuthController extends Controller
      *   ),
      *   @OA\Response(
      *     response=401,
-     *     description="Unauthorized",
+     *     description="Unauthenticated",
      *     @OA\JsonContent(
-     *       @OA\Property(property="message", type="string", example="Unauthorized"),
+     *       @OA\Property(property="message", type="string", example="Unauthenticated"),
      *     ),
      *   ),
      * )
@@ -202,15 +192,6 @@ class AuthController extends Controller
      *   summary="Logout user",
      *   description="Logout user.",
      *   security={{"bearerAuth":{}}},
-     *   @OA\RequestBody(
-     *     required=true,
-     *     description="Delete token.",
-     *     @OA\JsonContent(
-     *       required={"type", "token"},
-     *       @OA\Property(property="type", type="string", example="Bearer"),
-     *       @OA\Property(property="token", type="string", example="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9"),
-     *     ),
-     *   ),
      *   @OA\Response(
      *     response=200,
      *     description="Successfully logged out",
@@ -220,9 +201,9 @@ class AuthController extends Controller
      *   ),
      *   @OA\Response(
      *     response=401,
-     *     description="Unauthorized",
+     *     description="Unauthenticated",
      *     @OA\JsonContent(
-     *       @OA\Property(property="message", type="string", example="Unauthorized"),
+     *       @OA\Property(property="message", type="string", example="Unauthenticated"),
      *     ),
      *   ),
      * )
