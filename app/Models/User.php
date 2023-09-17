@@ -35,6 +35,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  *     example="john.doe@email.com"
  *   ),
  *   @OA\Property(
+ *     property="old_email",
+ *     description="User old email. Used when updating the email address to store the old email address, in case the user cannot verify the new email address.",
+ *     example="john.doe@oldmail.com"
+ *   ),
+ *   @OA\Property(
  *     property="email_verified_at",
  *     description="User email verified at",
  *     example="2021-01-01 00:00:00"

@@ -1354,6 +1354,10 @@
                         "description": "User email",
                         "example": "john.doe@email.com"
                     },
+                    "old_email": {
+                        "description": "User old email. Used when updating the email address to store the old email address, in case the user cannot verify the new email address.",
+                        "example": "john.doe@oldmail.com"
+                    },
                     "email_verified_at": {
                         "description": "User email verified at",
                         "example": "2021-01-01 00:00:00"
