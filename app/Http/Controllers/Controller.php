@@ -8,6 +8,12 @@ use Illuminate\Routing\Controller as BaseController;
 
 /**
  * @OA\Info(title="Task Manager API", version="0.1")
+ * @OA\SecurityScheme(
+ *     securityScheme="bearerAuth",
+ *     type="http",
+ *     scheme="bearer",
+ *     bearerFormat="JWT"
+ * )
  */
 class Controller extends BaseController
 {
