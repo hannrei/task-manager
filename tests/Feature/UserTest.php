@@ -46,8 +46,11 @@ class UserTest extends TestCase
         $user = User::first();
 
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $user->roles);
+        $this->assertInstanceOf('App\Models\Role', $user->roles->first());
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $user->tasks);
+        $this->assertInstanceOf('App\Models\Task', $user->tasks->first());
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $user->tasksCreated);
+        $this->assertInstanceOf('App\Models\Task', $user->tasksCreated->first());
     }
 
     public function testHasRole()
