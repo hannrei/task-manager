@@ -12,6 +12,9 @@ class UserControllerTest extends TestCase
     private $userAdmin;
     private $userNotAdmin;
 
+    private $userToDelete;
+    private $userToDelete2;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -24,6 +27,15 @@ class UserControllerTest extends TestCase
         $this->userNotAdmin = User::whereDoesntHave('roles', function ($query) {
             $query->where('name', 'admin');
         })->first();
+
+        $this->userToDelete = User::where('id', '!=', $this->userAdmin->id)
+            ->where('id', '!=', $this->userNotAdmin->id)
+            ->first();
+
+        $this->userToDelete2 = User::where('id', '!=', $this->userAdmin->id)
+            ->where('id', '!=', $this->userNotAdmin->id)
+            ->where('id', '!=', $this->userToDelete->id)
+            ->first();
     }
 
     public function testIndexSuccess200()
@@ -224,35 +236,35 @@ class UserControllerTest extends TestCase
         $response->assertStatus(422);
     }
 
-    public function deleteAsAdminSuccess200()
+    public function testDeleteAsAdminSuccess200()
     {
         $this->actingAs($this->userAdmin);
 
-        $response = $this->deleteJson('/api/users/' . $this->userNotAdmin->id);
+        $response = $this->deleteJson('/api/users/' . $this->userToDelete->id);
 
         $response->assertStatus(200)->assertJson([
             'message' => 'User deleted successfully.',
         ]);
 
-        $user = User::find($this->userNotAdmin->id);
+        $user = User::find($this->userToDelete->id);
         $this->assertNull($user);
     }
 
-    public function deleteAsNotAdminSuccess200()
+    public function testDeleteAsNotAdminSuccess200()
     {
-        $this->actingAs($this->userNotAdmin);
+        $this->actingAs($this->userToDelete2);
 
-        $response = $this->deleteJson('/api/users/' . $this->userNotAdmin->id);
+        $response = $this->deleteJson('/api/users/' . $this->userToDelete2->id);
 
         $response->assertStatus(200)->assertJson([
             'message' => 'User deleted successfully.',
         ]);
 
-        $user = User::find($this->userNotAdmin->id);
+        $user = User::find($this->userToDelete2->id);
         $this->assertNull($user);
     }
 
-    public function deleteUnauthenticated401()
+    public function testDeleteUnauthenticated401()
     {
         $response = $this->deleteJson('/api/users/' . $this->userNotAdmin->id);
 
@@ -262,7 +274,7 @@ class UserControllerTest extends TestCase
         ]);
     }
 
-    public function deleteForbidden403()
+    public function testDeleteForbidden403()
     {
         $this->actingAs($this->userNotAdmin);
 
@@ -271,7 +283,7 @@ class UserControllerTest extends TestCase
         $response->assertStatus(403);
     }
 
-    public function deleteNotFound404()
+    public function testDeleteNotFound404()
     {
         $this->actingAs($this->userAdmin);
 
