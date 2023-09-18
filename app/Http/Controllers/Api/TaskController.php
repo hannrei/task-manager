@@ -313,7 +313,7 @@ class TaskController extends Controller
     {
         $this->authorize('view', $task);
 
-        if($task->file === null) {
+        if ($task->file === null) {
             return response()->json([
                 'message' => 'No file attached to this task.'
             ], 404);
