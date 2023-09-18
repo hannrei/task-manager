@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('created_by')->constrained('users');
-            $table->foreignUuid('assigned_to')->constrained('users');
+            $table->foreignUuid('created_by')->constrained('users')->onDelete('cascade');
+            $table->foreignUuid('assigned_to')->constrained('users')->onDelete('cascade');
             $table->string('title');
             $table->text('description')->nullable();
             $table->date('due_date')->nullable();
