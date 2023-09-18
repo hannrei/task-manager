@@ -16,7 +16,7 @@ class AuthControllerTest extends TestCase
         $this->artisan('migrate:fresh --seed');
     }
 
-    public function testRegister201()
+    public function testRegisterSuccess201()
     {
         $response = $this->postJson('/api/auth/register', [
             'name' => 'John Doe',
@@ -30,7 +30,7 @@ class AuthControllerTest extends TestCase
             ]);
     }
 
-    public function testRegister422()
+    public function testRegisterInvalidData422()
     {
         $response = $this->postJson('/api/auth/register', [
             'name' => 'John Doe',
@@ -47,7 +47,7 @@ class AuthControllerTest extends TestCase
             );
     }
 
-    public function testLogin200()
+    public function testLoginSuccess200()
     {
         $user = User::first();
 
@@ -67,7 +67,7 @@ class AuthControllerTest extends TestCase
             ]);
     }
 
-    public function testLogin401()
+    public function testLoginUnauthorized401()
     {
         $response = $this->postJson('/api/auth/login', [
             'email' => 'john.doe@email.com',
@@ -80,7 +80,7 @@ class AuthControllerTest extends TestCase
             ]);
     }
 
-    public function testRefresh200()
+    public function testRefreshSuccess200()
     {
         $user = User::first();
 
@@ -105,7 +105,7 @@ class AuthControllerTest extends TestCase
             ]);
     }
 
-    public function testRefresh401()
+    public function testRefreshUnauthenticated401()
     {
         $response = $this->postJson('/api/auth/refresh');
 
@@ -115,7 +115,7 @@ class AuthControllerTest extends TestCase
             ]);
     }
 
-    public function testLogout200()
+    public function testLogoutSuccess200()
     {
         $user = User::first();
 
@@ -136,7 +136,7 @@ class AuthControllerTest extends TestCase
             ]);
     }
 
-    public function testLogout401()
+    public function testLogoutUnauthenticated401()
     {
         $response = $this->postJson('/api/auth/logout');
 
