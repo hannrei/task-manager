@@ -127,9 +127,9 @@ class TaskController extends Controller
     /**
      * @OA\Post(
      *     path="/api/tasks",
-     *     summary="Store a task",
+     *     summary="Create a task",
      *     tags={"Tasks"},
-     *     description="Store a task",
+     *     description="Create a task",
      *     operationId="storeTasks",
      *     security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
@@ -357,10 +357,6 @@ class TaskController extends Controller
      *         @OA\JsonContent(ref="#/components/schemas/Task")
      *     ),
      *     @OA\Response(
-     *         response=400,
-     *         description="Invalid input",
-     *     ),
-     *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
      *         @OA\JsonContent(
@@ -385,6 +381,10 @@ class TaskController extends Controller
      *     @OA\Response(
      *         response=404,
      *         description="Task not found",
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Entity",
      *     ),
      * )
      */

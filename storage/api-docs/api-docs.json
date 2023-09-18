@@ -352,8 +352,8 @@
                 "tags": [
                     "Tasks"
                 ],
-                "summary": "Store a task",
-                "description": "Store a task",
+                "summary": "Create a task",
+                "description": "Create a task",
                 "operationId": "storeTasks",
                 "requestBody": {
                     "description": "Task object that needs to be created",
@@ -603,9 +603,6 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Invalid input"
-                    },
                     "401": {
                         "description": "Unauthenticated",
                         "content": {
@@ -640,6 +637,9 @@
                     },
                     "404": {
                         "description": "Task not found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
                     }
                 },
                 "security": [
