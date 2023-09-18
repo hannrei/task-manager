@@ -352,8 +352,8 @@
                 "tags": [
                     "Tasks"
                 ],
-                "summary": "Create a task",
-                "description": "Create a task",
+                "summary": "Store a task",
+                "description": "Store a task",
                 "operationId": "storeTasks",
                 "requestBody": {
                     "description": "Task object that needs to be created",

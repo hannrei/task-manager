@@ -127,9 +127,9 @@ class TaskController extends Controller
     /**
      * @OA\Post(
      *     path="/api/tasks",
-     *     summary="Create a task",
+     *     summary="Store a task",
      *     tags={"Tasks"},
-     *     description="Create a task",
+     *     description="Store a task",
      *     operationId="storeTasks",
      *     security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
