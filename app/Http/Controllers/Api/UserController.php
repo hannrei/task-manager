@@ -29,10 +29,6 @@ class UserController extends Controller
      *         @OA\JsonContent(ref="#/components/schemas/UserResource")
      *     ),
      *     @OA\Response(
-     *         response=401,
-     *         description="Unauthenticated",
-     *     ),
-     *     @OA\Response(
      *         response=403,
      *         description="Forbidden",
      *     ),
@@ -70,6 +66,14 @@ class UserController extends Controller
      *         response=200,
      *         description="successful operation",
      *         @OA\JsonContent(ref="#/components/schemas/UserResource")
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated",
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden",
      *     ),
      *     @OA\Response(
      *         response=404,
@@ -117,13 +121,6 @@ class UserController extends Controller
      *     @OA\Response(
      *         response=401,
      *         description="Unauthenticated",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="message",
-     *                 type="string",
-     *                 example="Unauthenticated."
-     *             )
-     *         )
      *     ),
      *     @OA\Response(
      *         response=403,
