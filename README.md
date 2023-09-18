@@ -21,7 +21,7 @@ to generate an application key and a [JWT](https://jwt.io/) secret key.
 You have to set the database connection. After that, you can run 
 `php artisan migrate` 
 to create the database tables. If you want to seed the database with some test data, you can run 
-`php artisan db:seed`. 
+`php artisan db:seed`. If you do not want to seed the database with all test data, run at least `php artisan db:seed --class=RoleSeeder` to provide the roles for the proper functioning of the application.
 All test users have the password *password*. To run the application, you can use 
 `php artisan serve`.
 
