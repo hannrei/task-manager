@@ -484,6 +484,10 @@ class TaskController extends Controller
      *         )
      *     ),
      *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated",
+     *     ),
+     *     @OA\Response(
      *         response=403,
      *         description="Forbidden",
      *         @OA\JsonContent(
