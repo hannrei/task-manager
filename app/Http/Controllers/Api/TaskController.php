@@ -297,7 +297,7 @@ class TaskController extends Controller
      *     ),
      *     @OA\Response(
      *         response=401,
-     *         description="Unauthorized"
+     *         description="Unauthenticated"
      *     ),
      *     @OA\Response(
      *         response=403,
