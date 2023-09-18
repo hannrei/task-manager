@@ -14,10 +14,12 @@ class UsersTableSeeder extends Seeder
      */
     public function run(): void
     {
+        $userCount = app()->environment('testing') ? 10 : 100;
+
         $adminRole = Role::where('name', 'admin')->first();
         $userRole = Role::where('name', 'user')->first();
 
-        User::factory(100)->create()->each(function (User $user) use ($userRole, $adminRole) {
+        User::factory($userCount)->create()->each(function (User $user) use ($userRole, $adminRole) {
 
             $user->roles()->attach($userRole->id);
 
